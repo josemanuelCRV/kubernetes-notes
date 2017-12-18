@@ -14,7 +14,9 @@
 
 #### Introducción al cluster de Kubernetes
 
-Kubernetes está diseñado como un grupo de computadoras altamente disponibles que están conectadas para funcionar como una sola unidad. Esta abstracción nos permite implementar aplicaciones sin pensar en qué máquinas específicas necesitan ejecutar. Para utilizar este nuevo modelo de implementación, las aplicaciones deben empaquetarse de manera que las desacople de los hosts individuales: deben estar en contenedor. Esto es diferente en comparación con la forma en que se implementaron las aplicaciones en el pasado, cuando se instalaron directamente en máquinas específicas como paquetes profundamente integrados en el host. La función de Kubernetes es automatizar la distribución (programación) de contenedores de aplicaciones en un clúster de una manera eficiente. Kubernetes es una plataforma de código abierto y está lista para producción.
+Kubernetes está diseñado como un grupo de computadoras altamente disponibles que están conectadas para funcionar como una sola unidad. Esta abstracción nos permite implementar aplicaciones sin pensar en qué máquinas específicas necesitan ejecutar. 
+
+Para utilizar este nuevo modelo de implementación, las aplicaciones deben empaquetarse de manera que las desacople de los hosts individuales: deben estar en contenedor. Esto es diferente en comparación con la forma en que se implementaron las aplicaciones en el pasado, cuando se instalaron directamente en máquinas específicas como paquetes profundamente integrados en el host. La función de Kubernetes es automatizar la distribución (programación) de contenedores de aplicaciones en un clúster de una manera eficiente. Kubernetes es una plataforma de código abierto y está lista para producción.
 
 Un clúster de Kubernetes se compone de 2 tipos de recursos:
 
@@ -27,9 +29,9 @@ Un clúster de Kubernetes se compone de 2 tipos de recursos:
 
 
 
-#### Cluster up and running
+#### Cluster funcionando
 
-Check that it is properly installed, by running the minikube version command:
+Verifique que esté instalado correctamente, ejecutando el comando de versión de minikube:
 
 ```
 $ minikube version
@@ -37,45 +39,45 @@ minikube version: v0.17.1-katacoda
 ```
 
 
-Start the cluster, by running the minikube start command:
+Inicie el clúster ejecutando el comando minikube start:
 
 ```
 $ minikube start
 Starting local Kubernetes cluster...
 ```
 
-Great! You now have a running Kubernetes cluster in your online terminal. Minikube started a virtual machine for you, and a Kubernetes cluster is now running in that VM.
+¡Estupendo! Ahora tiene un clúster Kubernetes en ejecución en su terminal en línea. Minikube inició una máquina virtual para usted, y ahora se está ejecutando un clúster de Kubernetes en esa máquina virtual.
 
 
 
-#### Cluster version
+#### Versión de clúster
 
-We’re just going to look at some cluster information. To check if kubectl is installed you can run the kubectl version command:
+Solo vamos a ver información del clúster. Para verificar si kubectl está instalado, puede ejecutar el comando de versión kubectl:
 
 ```
 $ kubectl version
+
 Client Version: version.Info{Major:"1", Minor:"8", GitVersion:"v1.8.0", GitCommit:"6e937839ac04a38cac63e6a7a306c5d035fe7b0a", GitTreeState:"clean", BuildDate:"2017-09-28T22:57:57Z", GoVersion:"go1.8.3", Compiler:"gc", Platform:"linux/amd64"}
+
 Server Version: version.Info{Major:"1", Minor:"5", GitVersion:"v1.5.2", GitCommit:"08e099554f3c31f6e6f07b448ab3ed78d0520507", GitTreeState:"clean", BuildDate:"1970-01-01T00:00:00Z", GoVersion:"go1.7.1", Compiler:"gc", Platform:"linux/amd64"}
 ```
 
-The client version is the kubectl version; the server version is the Kubernetes version installed on the master. 
+La versión del cliente es la versión de kubectl; la versión del servidor es la versión de Kubernetes instalada en el maestro.
 
 
 
-#### Cluster details
+#### Detalles del cluster
 
 ```
 $ kubectl cluster-info
 
 Kubernetes master is running at http://host01:8080
 heapster is running at http://host01:8080/api/v1/namespaces/kube-system/services/heapster/proxy
-kubernetes-dashboard is running at http://host01:8080/api/v1/namespaces/kube-system/serv
-ices/kubernetes-dashboard/proxy
-monitoring-grafana is running at http://host01:8080/api/v1/namespaces/kube-system/servic
-es/monitoring-grafana/proxymonitoring-influxdb is running at http://host01:8080/api/v1/namespaces/kube-system/services/monitoring-influxdb/proxy
+kubernetes-dashboard is running at http://host01:8080/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy
+monitoring-grafana is running at http://host01:8080/api/v1/namespaces/kube-system/services/monitoring-grafana/proxymonitoring-influxdb is running at http://host01:8080/api/v1/namespaces/kube-system/services/monitoring-influxdb/proxy
 ```
 
-To view the nodes in the cluster, run the kubectl get nodes command:
+Para ver los nodos en el clúster, ejecute el comando kubectl get nodes:
 
 ```
 $ kubectl get nodes
@@ -84,7 +86,7 @@ NAME      STATUS    ROLES     AGE       VERSION
 host01    Ready     <none>    5m        v1.5.2
 ```
 
-This command shows all nodes that can be used to host our applications. Now we have only one node, and we can see that it’s status is ready (it is ready to accept applications for deployment).
+Este comando muestra todos los nodos que se pueden usar para alojar nuestras aplicaciones. Ahora solo tenemos un nodo, y podemos ver que su estado está listo (está listo para aceptar aplicaciones para la implementación).
 
 
 
@@ -121,19 +123,23 @@ Ahora que ya sabe lo que son las implementaciones, ¡vamos al tutorial en línea
 
 #### kubectl basics
 
-Like minikube, kubectl comes installed in the online terminal. Type kubectl in the terminal to see its usage. The common format of a kubectl command is: kubectl action resource This performs the specified action (like create, describe) on the specified resource (like node, container). You can use --help after the command to get additional info about possible parameters (kubectl get nodes --help).
+Al igual que minikube, kubectl viene instalado en la terminal en línea. Escriba kubectl en la terminal para ver su uso. 
+
+El formato común de un comando kubectl es: `kubectl recurso de acción`. Esto realiza la acción especificada (como crear, describir) en el recurso especificado (como nodo, contenedor). Puede usar --help after the command para obtener información adicional sobre los posibles parámetros (kubectl get nodes --help).
 
 Check that kubectl is configured to talk to your cluster, by running the kubectl version command:
 
 ```
 $ kubectl version
+
 Client Version: version.Info{Major:"1", Minor:"8", GitVersion:"v1.8.0", GitCommit:"6e937839ac04a38cac63e6a7a306c5d035fe7b0a", GitTreeState:"clean", BuildDate:"2017-09-28T22:57:57Z", GoVersion:"go1.8.3", Compiler:"gc", Platform:"linux/amd64"}
+
 Server Version: version.Info{Major:"1", Minor:"5", GitVersion:"v1.5.2", GitCommit:"08e099554f3c31f6e6f07b448ab3ed78d0520507", GitTreeState:"clean", BuildDate:"1970-01-01T00:00:00Z", GoVersion:"go1.7.1", Compiler:"gc", Platform:"linux/amd64"}
 ```
 
-OK, kubectl is installed and you can see both the client and the server versions: 1.5.
+De acuerdo, kubectl está instalado y puede ver las versiones del cliente y del servidor: 1.5.
 
-To view the nodes in the cluster, run the kubectl get nodes command:
+Para ver los nodos en el clúster, ejecute el comando kubectl get nodes:
 
 ```
 $ kubectl get nodes
@@ -146,18 +152,20 @@ host01    Ready     <none>    4m        v1.5.2
 
 #### Deploy our app
 
-Let’s run our first app on Kubernetes with the kubectl run command. The run command creates a new deployment. We need to provide the deployment name and app image location (include the full repository url for images hosted outside Docker hub). We want to run the app on a specific port so we add the --port parameter:
+Vamos a ejecutar nuestra primera aplicación en Kubernetes con el comando de ejecución kubectl. El comando de ejecución crea una nueva implementación. Necesitamos proporcionar el nombre del despliegue y la ubicación de la imagen de la aplicación (incluya la url del repositorio completo para las imágenes alojadas fuera del centro Docker). 
+
+Queremos ejecutar la aplicación en un puerto específico, así que agregamos el parámetro de puerto:
 
 ```kubectl run kubernetes-bootcamp --image=docker.io/jocatalin/kubernetes-bootcamp:v1 --port=8080```
 
-Great! You just deployed your first application by creating a deployment. This performed a few things for you:
+¡Estupendo! Acaba de implementar su primera aplicación creando una implementación. Esto realizó las siguientes tareas:
 
-- searched for a suitable node where an instance of the application could be run (we have only 1 available node)
-- scheduled the application to run on that Node
-- configured the cluster to reschedule the instance on a new Node when needed
+- busqué un nodo adecuado donde se pudiera ejecutar una instancia de la aplicación (solo tenemos 1 nodo disponible)
+- programar la aplicación para que se ejecute en ese nodo
+- configurado el clúster para reprogramar la instancia en un nuevo nodo cuando sea necesario
 
 
-To list your deployments use the `get deployments` command:
+Para enumerar sus implementaciones, use el comando `get deployments`:
 
 ```
 $ kubectl get deployments
@@ -166,19 +174,19 @@ NAME                  DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 kubernetes-bootcamp   1         1         1            1           1m
 ```
 
-We see that there is 1 deployment running a single instance of your app. The instance is running inside a Docker container on your node.
+Vemos que hay 1 implementación que ejecuta una sola instancia de su aplicación. La instancia se está ejecutando dentro de un contenedor Docker en su nodo.
 
 
 
-#### View our app
+#### Ver nuestra aplicación
 
-Pods that are running inside Kubernetes are running on a private, isolated network. By default they are visible from other pods and services within the same kubernetes cluster, but not outside that network. When we use kubectl, we're interacting through an API endpoint to communicate with our application.
+Los pods que se ejecutan dentro de Kubernetes se ejecutan en una red privada y aislada. De forma predeterminada, son visibles desde otros pods y servicios dentro del mismo clúster de kubernetes, pero no desde esa red. Cuando usamos kubectl, estamos interactuando a través de un enpoint API para comunicarnos con nuestra aplicación.
 
-We will cover other options on how to expose your application outside the kubernetes cluster in Module 4.
+Cubriremos otras opciones sobre cómo exponer su aplicación fuera del clúster de kubernetes en el Módulo 4.
 
-The kubectl command can create a proxy that will forward communications into the cluster-wide, private network. The proxy can be terminated by pressing control-C and won't show any output while its running.
+El comando kubectl puede crear un proxy que reenviará las comunicaciones a la red privada de todo el clúster. El proxy puede terminarse presionando control-C y no mostrará ningún resultado mientras se está ejecutando.
 
-We will open a second terminal window to run the proxy.
+Abriremos una segunda ventana de terminal para ejecutar el proxy.
 
 ```
 $ kubectl proxy
@@ -254,7 +262,7 @@ Nota: Verifique la parte superior de la terminal. El proxy se ejecutó en una nu
 
 #### Pods
 
-En el Módulo 2 , el Despliegue creó un Podque alojó su instancia de aplicación. Un Pod es un grupo de uno o más contenedores de aplicaciones (como Docker o rkt) que incluye almacenamiento compartido (volúmenes), una única dirección IP del clúster e información sobre cómo ejecutarlos (como la versión de imagen del contenedor o puertos específicos). Los contenedores dentro de un Pod comparten una dirección IP y espacio en el puerto. Los contenedores del mismo Pod siempre se ubican y reprograman conjuntamente, y se ejecutan en un contexto compartido en el mismo nodo. Un Pod modela un "host lógico" específico de la aplicación y contiene uno o más contenedores de aplicaciones que están relativamente estrechamente acoplados. Un ejemplo de contenedor que cabría en el mismo Pod con nuestra aplicación NodeJS sería un contenedor lateral que alimenta los datos publicados por el servidor web. En un mundo previo al contenedor, se habrían ejecutado en la misma máquina física o virtual.
+En el Módulo 2 , el Despliegue creó un Podque donde alojó su instancia de aplicación. Un Pod es un grupo de uno o más contenedores de aplicaciones (como Docker o rkt) que incluye almacenamiento compartido (volúmenes), una única dirección IP del clúster e información sobre cómo ejecutarlos (como la versión de imagen del contenedor o puertos específicos). Los contenedores dentro de un Pod comparten una dirección IP y espacio en el puerto. Los contenedores del mismo Pod siempre se ubican y reprograman conjuntamente, y se ejecutan en un contexto compartido en el mismo nodo. Un Pod modela un "host lógico" específico de la aplicación y contiene uno o más contenedores de aplicaciones que están relativamente estrechamente acoplados. Un ejemplo de contenedor que cabría en el mismo Pod con nuestra aplicación NodeJS sería un contenedor lateral que alimenta los datos publicados por el servidor web. En un mundo previo al contenedor, se habrían ejecutado en la misma máquina física o virtual.
 
 Los pods están vinculados al nodo donde se implementan y permanecen allí hasta la terminación (de acuerdo con la política de reinicio) o la eliminación. En caso de una falla de Nodo, se desplegarán nuevos Pods idénticos en otros Nodos disponibles. El Pod es la unidad de despliegue atómica en la plataforma de Kubernetes. Cuando desencadenamos un Despliegue en Kubernetes, creará Pods con contenedores dentro de ellos, no contenedores directamente.
 
