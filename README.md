@@ -218,7 +218,7 @@ $
 ```
 
 
-El servidor API creará automáticamente un punto final para cada pod, en función del nombre del pod, al que también se puede acceder a través del proxy.
+El servidor API creará automáticamente un endpoint para cada pod, en función del nombre del pod, al que también se puede acceder a través del proxy.
 
 Primero necesitamos obtener el nombre del Pod y almacenaremos en la variable de entorno POD_NAME:
 
@@ -262,9 +262,61 @@ Nota: Verifique la parte superior de la terminal. El proxy se ejecutó en una nu
 
 #### Pods
 
-En el Módulo 2 , el Despliegue creó un Podque donde alojó su instancia de aplicación. Un Pod es un grupo de uno o más contenedores de aplicaciones (como Docker o rkt) que incluye almacenamiento compartido (volúmenes), una única dirección IP del clúster e información sobre cómo ejecutarlos (como la versión de imagen del contenedor o puertos específicos). Los contenedores dentro de un Pod comparten una dirección IP y espacio en el puerto. Los contenedores del mismo Pod siempre se ubican y reprograman conjuntamente, y se ejecutan en un contexto compartido en el mismo nodo. Un Pod modela un "host lógico" específico de la aplicación y contiene uno o más contenedores de aplicaciones que están relativamente estrechamente acoplados. Un ejemplo de contenedor que cabría en el mismo Pod con nuestra aplicación NodeJS sería un contenedor lateral que alimenta los datos publicados por el servidor web. En un mundo previo al contenedor, se habrían ejecutado en la misma máquina física o virtual.
+En el Módulo 2 , el Despliegue creó un Pod donde alojó su instancia de aplicación. 
+
+Un Pod es un grupo de uno o más contenedores de aplicaciones (como Docker o rkt) que incluye almacenamiento compartido (volúmenes), una única dirección IP del clúster e información sobre cómo ejecutarlos (como la versión de imagen del contenedor o puertos específicos). 
+
+Los contenedores dentro de un Pod comparten una dirección IP y espacio en el puerto. 
+
+Los contenedores del mismo Pod siempre se ubican y reprograman conjuntamente, y se ejecutan en un contexto compartido en el mismo nodo. 
+
+Un Pod modela un "host lógico" específico de la aplicación y contiene uno o más contenedores de aplicaciones que están relativamente estrechamente acoplados. Un ejemplo de contenedor que cabría en el mismo Pod con nuestra aplicación NodeJS sería un contenedor lateral que alimenta los datos publicados por el servidor web. En un mundo previo al contenedor, se habrían ejecutado en la misma máquina física o virtual.
 
 Los pods están vinculados al nodo donde se implementan y permanecen allí hasta la terminación (de acuerdo con la política de reinicio) o la eliminación. En caso de una falla de Nodo, se desplegarán nuevos Pods idénticos en otros Nodos disponibles. El Pod es la unidad de despliegue atómica en la plataforma de Kubernetes. Cuando desencadenamos un Despliegue en Kubernetes, creará Pods con contenedores dentro de ellos, no contenedores directamente.
+
+
+Visión general de los pods
+
+![][img-podsoverview]
+
+
+
+#### Nodos
+
+Los Pods siempre se ejecutan en nodos. Un Nodo es una máquina de trabajo en Kubernetes y puede ser una VM o una máquina física, dependiendo del clúster. Cada Nodo ejecuta Pods y es administrado por el Maestro. 
+
+En un Nodo puedes tener múltiples pods. La programación de los Pods se realiza automáticamente por el Maestro y esto tiene en cuenta los recursos disponibles en los Nodos.
+
+Cada nodo de Kubernetes ejecuta al menos:
+
+- Un contenedor (como Docker, rkt) que se encargará de sacar todos sus contenedores de un registro.
+- Kubelet, que actúa como un puente entre el Maestro de Kubernetes y los Nodos; administra los Pods y los contenedores que se ejecutan en una máquina.
+
+Visión general del nodo
+
+![][img-nodooverview]
+
+
+
+#### Solución de problemas con kubectl
+
+En el Módulo 2 presentamos la herramienta kubelet cli. Lo usaremos en este módulo para obtener información sobre las aplicaciones implementadas y sus entornos. Las operaciones más comunes se pueden hacer con los siguientes comandos kubectl:
+
+- ***kubectl get*** - lista recursos
+- ***kubectl describe*** - muestra información detallada sobre un recurso
+- ***kubectl logs*** - imprime los logs de un contenedor en un pod
+- ***kubectl exec*** - ejecuta un comando en un contenedor en un pod
+
+Esos comandos lo ayudarán a ver cuándo se implementaron las aplicaciones, cuál es su estado actual, dónde se están ejecutando y cuál es su configuración.
+
+Ahora que sabemos más sobre nuestros componentes de clúster y la línea de comandos, exploremos nuestra aplicación.
+
+
+
+
+
+
+
 
 
 
@@ -272,3 +324,7 @@ Los pods están vinculados al nodo donde se implementan y permanecen allí hasta
 [img-clusterdiagram]: https://kubernetesbootcamp.github.io/kubernetes-bootcamp/public/images/module_01_cluster.svg "Diagrama de cluster"
 
 [img-deployprocesses]: https://kubernetesbootcamp.github.io/kubernetes-bootcamp/public/images/module_02_first_app.svg
+
+[img-podsoverview]: https://kubernetesbootcamp.github.io/kubernetes-bootcamp/public/images/module_03_pods.svg
+
+[img-nodooverview]: https://kubernetesbootcamp.github.io/kubernetes-bootcamp/public/images/module_03_nodes.svg
